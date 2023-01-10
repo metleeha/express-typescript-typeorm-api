@@ -27,9 +27,20 @@
     "url": "https://github.com/birdview-coding-assignment/2023-01-06-Hadong-Lee/issues"
   },
   "homepage": "https://github.com/birdview-coding-assignment/2023-01-06-Hadong-Lee#readme",
-  "dependencies": {},
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.3.11"
+  },
   "devDependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.15",
     "@types/jest": "^29.2.5",
+    "@types/morgan": "^1.9.4",
     "@types/node": "^18.11.18",
     "gts": "^3.1.1",
     "jest": "^29.3.1",
