@@ -1,0 +1,37 @@
+{
+  "name": "2023-01-06-hadong-lee",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src/index.ts",
+    "build": "tsc",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "prepare": "yarn run compile",
+    "pretest": "yarn run compile",
+    "posttest": "yarn run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/birdview-coding-assignment/2023-01-06-Hadong-Lee.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/birdview-coding-assignment/2023-01-06-Hadong-Lee/issues"
+  },
+  "homepage": "https://github.com/birdview-coding-assignment/2023-01-06-Hadong-Lee#readme",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4",
+    "gts": "^3.1.1"
+  }
+}
