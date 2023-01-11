@@ -1,7 +1,15 @@
+# 빌드 
 node_modules/*
-coverage/*
-data
 build/**/*
 build/.keep
+# Jest 테스트 
+coverage/*
+# DB 
+data
+*.sqlite
+# git 
 .git.*
+# 환경변수 
 .env
+# OS 
+.DS_Store
