@@ -6,9 +6,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Article } from './Article';
+import {Article} from './Article';
 
-@Entity({ name: 'user'})
+@Entity({name: 'user'})
 export class User {
   @PrimaryGeneratedColumn()
   id!: number;
@@ -16,8 +16,8 @@ export class User {
   @Column()
   name!: string;
 
-  @OneToMany(() => Article, (article) => article.user)
-  articles: Article[]
+  @OneToMany(() => Article, article => article.user, {nullable: true})
+  articles: Article[];
 
   @CreateDateColumn({name: 'created_at'})
   createAt!: Date;

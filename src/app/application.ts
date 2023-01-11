@@ -2,6 +2,7 @@ import express, {Express} from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import morgan from 'morgan';
+import {applicationRouter} from './routes';
 
 export class Application {
   private _server: Express;
@@ -19,6 +20,7 @@ export class Application {
       this._server.use(morgan('dev')); // 개발환경이면
     }
     this._server.use(cors());
+    this._server.use(applicationRouter);
   }
 
   public startServer(): void {
