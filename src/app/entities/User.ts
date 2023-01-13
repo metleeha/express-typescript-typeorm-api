@@ -16,7 +16,7 @@ export class User {
   @Column({unique: true})
   name!: string;
 
-  @OneToMany(() => Article, article => article.user, {nullable: true})
+  @OneToMany(() => Article, article => article.user, { nullable: true, onDelete: 'CASCADE' })
   articles: Article[];
 
   @CreateDateColumn({name: 'created_at'})

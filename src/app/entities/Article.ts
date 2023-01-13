@@ -18,10 +18,10 @@ export class Article {
   @Column()
   name!: string;
 
-  @ManyToOne(() => User, user => user.articles)
+  @ManyToOne(() => User, user => user.articles, {onDelete: 'CASCADE'})
   user: User;
 
-  @OneToMany(() => Picture, picture => picture.article, {nullable: true})
+  @OneToMany(() => Picture, picture => picture.article, {nullable: true, onDelete: 'CASCADE'})
   pictures: Picture[];
 
   @CreateDateColumn({name: 'created_at'})

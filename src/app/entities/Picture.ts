@@ -16,7 +16,7 @@ export class Picture {
   @Column()
   name!: string;
 
-  @ManyToOne(() => Article, article => article.pictures)
+  @ManyToOne(() => Article, article => article.pictures, { onDelete: 'CASCADE' })
   article: Article;
 
   @CreateDateColumn({name: 'created_at'})

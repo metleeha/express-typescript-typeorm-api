@@ -10,5 +10,15 @@ router.get('/', async (req: Request, res: Response) => {
 router.post('/', async (req: Request, res: Response) => {
     await controller.createUser(req, res)
 });
+router.get('/:user_id/articles', async (req: Request, res: Response) => {
+    await controller.getArticlesByUserId(req, res)
+})
+router.post('/:user_id/articles', async (req: Request, res: Response) => {
+    await controller.createArticle(req, res)
+})
+
+router.delete('/:user_id/articles', async (req: Request, res: Response) => {
+    await controller.deleteArticlesByUserId(req, res)
+})
 
 export const usersRouter: Router = router;
