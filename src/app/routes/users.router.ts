@@ -21,4 +21,13 @@ router.delete('/:user_id/articles', async (req: Request, res: Response) => {
     await controller.deleteArticlesByUserId(req, res)
 })
 
+router.put('/:user_id/articles/:article_id', async (req: Request, res: Response) => {
+    await controller.updateArticleById(req, res)
+})
+
+router.delete('/:user_id/articles/:article_id', async (req: Request, res: Response) => {
+    await controller.deleteArticleById(req, res)
+})
+
+
 export const usersRouter: Router = router;
