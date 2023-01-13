@@ -1,6 +1,7 @@
 import {Request, Response} from 'express';
 import {UserRepository} from '../repositories';
 import {ArticleRepository} from '../repositories';
+import {PictureRepository} from '../repositories';
 
 export class UserController {
     // * GET
@@ -131,6 +132,114 @@ export class UserController {
             } else {
                 res.status(404).json({ error: '해당 article이 존재하지 않습니다.'})
             }
+        } catch (err) {
+            res.status(500).json({ error: err })
+        }
+    }
+    // * GET
+    // * /users/:user_id/articles/:article_id/pictures
+    async getPicturesByArticleId(req: Request, res: Response): Promise<any> {
+        const userId = req.params.user_id
+        const articleId = req.params.article_id
+        try {
+            const user = await UserRepository.findOne({
+                where: {
+                    id: Number(userId)
+                },
+                relations: ['articles']
+            })
+            if(!user) {
+                res.status(404).json({ error: 'user가 존재하지 않습니다.'})
+                return
+            }
+
+            const article = await ArticleRepository.findOne({
+                where: {
+                    id: Number(articleId)
+                },
+                relations: ['pictures']
+            })
+            if(!article) {
+                res.status(404).json({ error: 'picture가 존재하지 않습니다.'})
+                return
+            }
+            const results = article.pictures
+
+            res.status(200).json(results)
+        } catch (err) {
+            res.status(500).json({ error: err })
+        }
+    }
+    // * POST
+    // * /users/:user_id/articles/:article_id/pictures
+    async createPicture(req: Request, res: Response): Promise<any> {
+        const userId = req.params.user_id
+        const articleId = req.params.article_id
+        const { name } = req.body
+        try {
+            const user = await UserRepository.findOne({
+                where: {
+                    id: Number(userId)
+                },
+                relations: ['articles']
+            })
+            if(!user) {
+                res.status(404).json({ error: 'user가 존재하지 않습니다.'})
+                return
+            }
+
+            const article = await ArticleRepository.findOne({
+                where: {
+                    id: Number(articleId)
+                },
+                relations: ['pictures']
+            })
+            if(!article) {
+                res.status(404).json({ error: 'picture가 존재하지 않습니다.'})
+                return
+            }
+
+            const picture = await PictureRepository.create()
+            picture.name = name
+            picture.article = article
+            const results = await PictureRepository.save(picture)
+
+            res.status(200).json(results)
+        } catch (err) {
+            res.status(500).json({ error: err })
+        }
+    }
+    // * DELETE
+    // * /users/:user_id/articles/:article_id/pictures
+    async deletePicturesByArticleId(req: Request, res: Response): Promise<any> {
+        const userId = req.params.user_id
+        const articleId = req.params.article_id
+        try {
+            const user = await UserRepository.findOne({
+                where: {
+                    id: Number(userId)
+                },
+                relations: ['articles']
+            })
+            if(!user) {
+                res.status(404).json({ error: 'user가 존재하지 않습니다.'})
+                return
+            }
+
+            const article = await ArticleRepository.findOne({
+                where: {
+                    id: Number(articleId)
+                },
+                relations: ['pictures']
+            })
+            if(!article) {
+                res.status(404).json({ error: 'picture가 존재하지 않습니다.'})
+                return
+            }
+            article.pictures = []
+            const results = await PictureRepository.save(article)
+
+            res.status(200).json(results)
         } catch (err) {
             res.status(500).json({ error: err })
         }
