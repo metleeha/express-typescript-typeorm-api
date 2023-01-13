@@ -37,4 +37,13 @@ router.delete('/:user_id/articles/:article_id/pictures', async (req: Request, re
     await controller.deletePicturesByArticleId(req, res)
 })
 
+router.get('/:user_id/articles/:article_id/pictures/:picture_id', async (req: Request, res: Response) => {
+    await controller.getPictureByArticleId(req, res)
+})
+router.put('/:user_id/articles/:article_id/pictures/:picture_id', async (req: Request, res: Response) => {
+    await controller.updatePictureByArticleId(req, res)
+})
+router.delete('/:user_id/articles/:article_id/pictures/:picture_id', async (req: Request, res: Response) => {
+    await controller.deletePictureByArticleId(req, res)
+})
 export const usersRouter: Router = router;

@@ -160,7 +160,7 @@ export class UserController {
                 relations: ['pictures']
             })
             if(!article) {
-                res.status(404).json({ error: 'picture가 존재하지 않습니다.'})
+                res.status(404).json({ error: 'article이 존재하지 않습니다.'})
                 return
             }
             const results = article.pictures
@@ -195,7 +195,7 @@ export class UserController {
                 relations: ['pictures']
             })
             if(!article) {
-                res.status(404).json({ error: 'picture가 존재하지 않습니다.'})
+                res.status(404).json({ error: 'article이 존재하지 않습니다.'})
                 return
             }
 
@@ -233,13 +233,143 @@ export class UserController {
                 relations: ['pictures']
             })
             if(!article) {
-                res.status(404).json({ error: 'picture가 존재하지 않습니다.'})
+                res.status(404).json({ error: 'article이 존재하지 않습니다.'})
                 return
             }
             article.pictures = []
-            const results = await PictureRepository.save(article)
+            const results = await ArticleRepository.save(article)
 
             res.status(200).json(results)
+        } catch (err) {
+            res.status(500).json({ error: err })
+        }
+    }
+    // * GET
+    // * /users/:user_id/articles/:article_id/pictures/:picture_id
+    async getPictureByArticleId(req: Request, res: Response): Promise<any> {
+        const userId = req.params.user_id
+        const articleId = req.params.article_id
+        const pictureId = req.params.picture_id
+        try {
+            const user = await UserRepository.findOne({
+                where: {
+                    id: Number(userId)
+                },
+                relations: ['articles']
+            })
+            if(!user) {
+                res.status(404).json({ error: 'user가 존재하지 않습니다.'})
+                return
+            }
+
+            const article = await ArticleRepository.findOne({
+                where: {
+                    id: Number(articleId)
+                },
+                relations: ['pictures']
+            })
+            if(!article) {
+                res.status(404).json({ error: 'article이 존재하지 않습니다.'})
+                return
+            }
+            
+            const picture = await PictureRepository.findOne({
+                where: {
+                    id: Number(pictureId)
+                },
+            })
+            if(!picture) {
+                res.status(404).json({ error: 'picture 존재하지 않습니다.'})
+                return
+            }
+            res.status(200).json(picture)
+        } catch (err) {
+            res.status(500).json({ error: err })
+        }
+    }
+    // * PUT
+    // * /users/:user_id/articles/:article_id/pictures/:picture_id
+    async updatePictureByArticleId(req: Request, res: Response): Promise<any> {
+        const userId = req.params.user_id
+        const articleId = req.params.article_id
+        const pictureId = req.params.picture_id
+        const { name } = req.body
+        try {
+            const user = await UserRepository.findOne({
+                where: {
+                    id: Number(userId)
+                },
+                relations: ['articles']
+            })
+            if(!user) {
+                res.status(404).json({ error: 'user가 존재하지 않습니다.'})
+                return
+            }
+
+            const article = await ArticleRepository.findOne({
+                where: {
+                    id: Number(articleId)
+                },
+                relations: ['pictures']
+            })
+            if(!article) {
+                res.status(404).json({ error: 'article이 존재하지 않습니다.'})
+                return
+            }
+            
+            const picture = await PictureRepository.findOne({
+                where: {
+                    id: Number(pictureId)
+                },
+            })
+            if(!picture) {
+                res.status(404).json({ error: 'picture 존재하지 않습니다.'})
+                return
+            }
+            const putResult = await PictureRepository.createQueryBuilder()
+            .update()
+            .set({ name: name, article: article})
+            .where('id = :id', { id: pictureId })
+            .execute()
+            res.status(200).json(putResult)
+        } catch (err) {
+            res.status(500).json({ error: err })
+        }
+    }
+    // * DELETE
+    // * /users/:user_id/articles/:article_id/pictures/:picture_id
+    async deletePictureByArticleId(req: Request, res: Response): Promise<any> {
+        const userId = req.params.user_id
+        const articleId = req.params.article_id
+        const pictureId = req.params.picture_id
+        try {
+            const user = await UserRepository.findOne({
+                where: {
+                    id: Number(userId)
+                },
+                relations: ['articles']
+            })
+            if(!user) {
+                res.status(404).json({ error: 'user가 존재하지 않습니다.'})
+                return
+            }
+
+            const article = await ArticleRepository.findOne({
+                where: {
+                    id: Number(articleId)
+                },
+                relations: ['pictures']
+            })
+            if(!article) {
+                res.status(404).json({ error: 'article이 존재하지 않습니다.'})
+                return
+            }
+            const deleteResult = await PictureRepository.delete(pictureId)
+            if (deleteResult.affected === 1) {
+                res.sendStatus(200);
+            } else {
+                res.status(404).json({ error: '해당 picture가 존재하지 않습니다.'})
+            }
         } catch (err) {
             res.status(500).json({ error: err })
         }
