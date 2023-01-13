@@ -14,12 +14,14 @@ const options: DataSourceOptions = {
 
 export const AppDataSource = new DataSource(options);
 
-AppDataSource.initialize()
+if (process.env.NODE_ENV !== "test") {
+  AppDataSource.initialize()
   .then(async () => {
     console.log('Data Source has been initialized!');
   })
   .catch(err => {
     console.error('Error during Data Source initialization', err);
   });
+}
 
 export default AppDataSource;
